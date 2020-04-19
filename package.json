@@ -1,0 +1,19 @@
+{
+  "name": "karbon-api",
+  "version": "1.0.0",
+  "description": "Karbon Backend API",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/APNovichkov/node-karbon-api.git"
+  },
+  "author": "Andrey Novichkov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/APNovichkov/node-karbon-api/issues"
+  },
+  "homepage": "https://github.com/APNovichkov/node-karbon-api#readme"
+}
