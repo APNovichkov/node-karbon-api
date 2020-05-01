@@ -112,7 +112,5 @@ describe('Products', function() {
             done(err);
         })
     })
-
-    
 })
 
