@@ -1,27 +1,21 @@
 const chai = require("chai");
 const chaiHttp = require("chai-http");
-const expect = chai.expect;
+const mongoose = require('mongoose')
 
 const server = require('../server');
 const Product = require('../models/product');
 const Store = require('../models/store');
 
-chai.should();
+const expect = chai.expect;
+const should = chai.should()
 chai.use(chaiHttp);
 
 const agent = chai.request.agent(server);
 
 const SAMPLE_PRODUCT_ID = "aaaaaaaaaaaa";
-const SAMPLE_STORE_ID = "bbbbbbbbbbbb";
+const SAMPLE_STORE_ID = "bbbbbbbbbbba";
+const SAMPLE_PRODUCT_ID_2 = "cccccccccccc";
 
-
-const newProduct = {
-    
-}
-
-const newStore = {
-    
-}
 
 after(function(done){
     mongoose.models = {}
@@ -45,15 +39,18 @@ describe('Products', function() {
             "name": "lisen phone charger",
             "category": "tech",
             "price": 20.99,
-            "store_id": SAMPLE_STORE_ID
+            "store": SAMPLE_STORE_ID
         })
 
-        Promise.all(sampleStore.save(), sampleProduct.save()).then(() => {done()}).catch(err => {done(err)});
+        Promise.all([sampleStore.save(), sampleProduct.save()]).then(() => {done()}).catch(err => {done(err)});
     })
 
     afterEach(function(done) {
-        Product.findOneAndDelete(newProduct)
-        .then(function(product) {
+        const deleteProduct = Product.deleteMany({ name: ["lisen phone charger", "another product"] });
+        const deleteStore = Store.deleteMany({ name: ["Ankeney"] })
+
+        Promise.all([deleteProduct, deleteStore])
+        .then(function() {
             done();
         })
         .catch(function(err) {
@@ -61,13 +58,6 @@ describe('Products', function() {
         })
     })
 
-    after(function(done) {
-        Store.findByIdAndDelete(SAMPLE_STORE_ID).then(function(store){
-            done()
-        }).catch(function(err){
-            done(err);
-        })
-    })
 
     it("Should return product by id", function(done) {
         chai.request(server).get(`/products/${SAMPLE_PRODUCT_ID}`)
@@ -76,14 +66,32 @@ describe('Products', function() {
             expect(res.body).to.be.an("object");
             expect(res.body.name).to.equal("lisen phone charger");
             done();
+        }).catch(function(err) {
+            done(err);
         })
     })
 
     it("Should should show all products", function(done){
-        chai.request(server).get()
+        chai.request(server).get('/products')
+        .then(function(res){
+            expect(res).to.have.status(200);
+            // TODO check for product array
+            done();
+        }).catch(function(err){
+            done(err);
+        })
     })
 
     it("Should upload a new product", function(done) {
+
+        const newProduct = {
+            "_id": SAMPLE_PRODUCT_ID_2,
+            "name": "another product",
+            "category": "tech",
+            "price": 25.99,
+            "store": SAMPLE_STORE_ID
+        }
+
         Product.estimatedDocumentCount()
         .then(function(initialDocCount) {
             chai.request(server).post('/products').set("content-type", "application/x-www-form-urlencoded").send(newProduct)
