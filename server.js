@@ -18,7 +18,7 @@ require('./data/karbon-db');
 
 // Start Server
 app.listen(3000, () => {
-    console.log('Reddit listening on port localhost:3000!');
+    console.log('Node Karbon API listening on port localhost:3000!');
 });
 
 module.exports = app;

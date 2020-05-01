@@ -25,6 +25,9 @@ router.delete("/:productId", async (req, res) => {
 router.post("/", async (req, res) => {
 
     const product = new Product(req.body);
+
+    console.log(req.body);
+
     product.save()
     .then(product => {
         return Store.findById(req.body.store);
