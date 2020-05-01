@@ -5,7 +5,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    const stores = await Store.find();
+    const stores = await Store.find().populate('products');
     return res.send(stores);
 });
 

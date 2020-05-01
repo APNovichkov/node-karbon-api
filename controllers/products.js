@@ -11,13 +11,11 @@ router.get('/', async (req, res) => {
 
 router.get('/:productId', async(req, res) => {
     const product = await Product.findById(req.params.productId);
-
     return res.send(product)
 })
 
 router.delete("/:productId", async (req, res) => {
     const product = await Product.findByIdAndDelete(req.params.productId);
-
     return res.send({
         'message': "Successfuly deleted",
         "_id": product._id
@@ -25,7 +23,19 @@ router.delete("/:productId", async (req, res) => {
 })
 
 router.post("/", async (req, res) => {
-    const product = await Product.insertMany(req.body);
+
+    const product = new Product(req.body);
+    product.save()
+    .then(product => {
+        return Store.findById(req.body.store);
+    })
+    .then(store => {
+        store.products.unshift(product);
+        store.save()
+    }).catch(err => {
+        console.log(err);
+    })
+
     return res.send(product);
 })
 
