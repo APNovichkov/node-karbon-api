@@ -22,7 +22,6 @@ router.delete('/:storeId', async (req, res) => {
     });
 });
 
-
 router.post('/', async (req, res) => {
     const store = await Store.insertMany(req.body);
     return res.send(store);
