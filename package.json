@@ -4,6 +4,7 @@
   "description": "Karbon Backend API",
   "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "test": "mocha"
   },
   "repository": {
