@@ -1,5 +1,4 @@
 const express = require("express");
-
 const app = express();
 
 // Define Middleware
@@ -17,8 +16,8 @@ app.use(router);
 require('./data/karbon-db');
 
 // Start Server
-app.listen(3000, () => {
-    console.log('Node Karbon API listening on port localhost:3000!');
+app.listen(process.env.PORT, () => {
+    console.log('Node Karbon API listening on port: ' + process.env.PORT);
 });
 
 module.exports = app;
