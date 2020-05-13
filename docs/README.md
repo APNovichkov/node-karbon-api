@@ -4,11 +4,13 @@
 > karbon.co/data
 
 ## What does the API do?
-This is an API that allows you to find nearby brick & mortar stores based on a combination of:
+This is an API aimns to allow you to find nearby brick & mortar stores based on a combination of:
 - Having a specific product in the inventory
 - Location
 - Category
-- Ratings
+- Ratings  
+
+This is an on-going project, but for now, everything that you see below is implemented and deployed
 
 
 ## GET Routes
