@@ -1,16 +1,20 @@
-# Karbon API Docs
+# StoreProd API Docs
 
 > Made and maintained by Andrey Novichkov  
-> karbon.co/data
+> https://node-karbon-api.herokuapp.com/
 
-## What does the API do?
+## What does the StoreProd API do?
 This is an API aimns to allow you to find nearby brick & mortar stores based on a combination of:
 - Having a specific product in the inventory
 - Location
 - Category
 - Ratings  
 
-This is an on-going project, but for now, everything that you see below is implemented and deployed
+This is an on-going project. For now, everything that you see below is **implemented and deployed**
+
+
+## Auth Routes
+**You need to be signed-up and logged in to be able to access API**
 
 
 ## GET Routes
