@@ -3,7 +3,7 @@ require('dotenv').config();
 /* Mongoose Connection */
 const mongoose = require('mongoose')
 const mongo_uri = process.env.MONGODB_URI
-mongoose.connect(mongo_uri, { useNewUrlParser: true })
+mongoose.connect(mongo_uri, { useNewUrlParser: true, useUnifiedTopology: true })
 
 assert = require("assert");
 

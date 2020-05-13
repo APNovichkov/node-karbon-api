@@ -3,6 +3,11 @@ const User = require('../models/user');
 const express = require('express');
 const router = express.Router();
 
+router.get('/', async (req, res) => {
+    users = await User.find().lean();
+    return res.send(users);
+})
+
 router.post('/', (req, res) => {
 
     let result = {};
@@ -11,15 +16,14 @@ router.post('/', (req, res) => {
     const {name, password} = req.body;
     const user = new User({name, password}); 
     
-    user.save().then((err, user) => {
-        if (!err) {
-            result.status = status;
-            result.result = user;
-        } else {
-            status = 500;
-            result.status = status;
-            result.error = err;
-        }
-        res.status(status).send(result);
+    user.save()
+    .then(user => {
+        result.status = status;
+        result.result = user;
+        return res.status(status).send(result);
+    }).catch(err => {
+        console.log(err);
     });
 })
+
+module.exports = router;

@@ -1,10 +1,12 @@
 const express = require("express");
 const app = express();
 const bodyParser = require('body-parser');
+const validateToken = require('./utils').validateToken;
 
 // Define Middleware
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
+app.use(validateToken);
 
 
 // Setup Router
