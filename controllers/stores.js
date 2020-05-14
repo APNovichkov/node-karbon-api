@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:storeId', async (req, res) => {
-    const store = await Store.findById(req.params.storeId);
+    const store = await Store.findById(req.params.storeId).populate('products');
     return res.send(store);
 });
 

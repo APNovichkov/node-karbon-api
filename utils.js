@@ -1,6 +1,11 @@
 const jwt = require('jsonwebtoken');
 
 function validateToken(req, res, next){
+
+    // Don't need to validate token for login or signup
+    let reqUrl = req.originalUrl;
+    console.log("Original url: ", req.originalUrl)
+
     const authorizationHeaader = req.headers.authorization;
     let result;
     if (authorizationHeaader) {
@@ -23,11 +28,16 @@ function validateToken(req, res, next){
         throw new Error(err);
       }
     } else {
-      result = { 
-        error: `Authentication error. Token required.`,
-        status: 401
-      };
-      res.status(401).send(result);
+      if(reqUrl == "/auth/login" || reqUrl == "/auth/signup"){
+        console.log("Going on");
+        next();
+      }else{
+        result = { 
+          error: `Authentication error. Token required.`,
+          status: 401
+        };
+        res.status(401).send(result);
+      }
     }
 }
 
