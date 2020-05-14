@@ -1,9 +1,9 @@
-# StoreProd API Docs
+# Karbon API Docs
 
 > Made and maintained by Andrey Novichkov  
 > https://node-karbon-api.herokuapp.com/
 
-## What does the StoreProd API do?
+## What does the Karbon API do?
 This is an API aimns to allow you to find nearby brick & mortar stores based on a combination of:
 - Having a specific product in the inventory
 - Location
@@ -16,6 +16,50 @@ This is an on-going project. For now, everything that you see below is **impleme
 ## Auth Routes
 **You need to be signed-up and logged in to be able to access API**
 
+### Sign Up
+> /auth/signup
+
+Input as form encoded object:
+```
+{
+    'user': username
+    'password': password
+}
+```
+
+### Log In
+> /auth/login
+
+Input as form encoded object:
+```
+{
+    'user': username,
+    'password': password
+}
+```
+
+## Models
+### Store Model
+
+```
+{
+    name: "Target",
+    coordinates: "14.2224, 40.8492",
+    city: "San Francisco",
+    products: [ Product1(FK), Product2(FK), ... ]
+}
+```
+
+### Product Model
+```
+{
+    name: "Lisen iPhone Charger",
+    category: "Electronics",
+    price: "19.99",
+    store: Store1(FK)
+}
+```
+
 
 ## GET Routes
 
@@ -23,199 +67,52 @@ This is an on-going project. For now, everything that you see below is **impleme
 
 > /stores
 
-Output in JSON format:
-```
-[{
-    'id': 45
-    'name': 'Walgreens',
-    'category': 'Personal Care/Groceries',
-    'coordinates': [35.24329, -122.23423]
-},
-{
-    ...
-}]
-```
+Outputs array of stores in JSON format.
 
 ### **Return store by id**
 
 > /stores/{id}
 
-Output in JSON format:
-```
-{
-    'id': 45
-    'name': 'Walgreens',
-    'category': 'Personal Care/Groceries',
-    'coordinates': [35.24329, -122.23423]
-}
-```
-
+Outputs single store in JSON format.
 
 ### **Return all products from all stores in the database**
 
 > /products  
 
-Output in JSON format:
-```
-[{
-    'id': '20'
-    'name': 'Apple iPhone Lightning Cable',
-    'category': 'Technology',
-    'store_id': 45
-    'price': 14.99
-    'quantity': 42
-    'last_updated': 04192020-093029
-},
-{
-    ...
-}]
-```
+Outputs array of products in JSON format.
 
 ### **Return product by id**
 
 > /products/{id}
 
-Output in JSON format:
-```
-{
-    'id': '20'
-    'name': 'Apple iPhone Lightning Cable',
-    'category': 'Technology',
-    'store_id': 45
-    'price': 14.99
-    'quantity': 42
-    'last_updated': 04192020-093029
-}
-```
 
-### **Return stores based on a search category and a json body like the one below**
-
-> /stores/getdata/{product_name/location/category/rating}
-
-Input in JSON format:
-```
-{
-    'keyword': 'Apple charging cable',
-    'limit': 10,
-    'location': [23.040203, -122.72834],
-    'rating': 3
-}
-```
-
-Output in JSON format:
-```
-[{
-    'id': 45
-    'name': 'Walgreens',
-    'category': 'Personal Care/Groceries',
-    'coordinates': [35.24329, -122.23423],
-    'product': {
-        'id': '20'
-        'name': 'Apple iPhone Lightning Cable',
-        'category': 'Technology',
-        'store_id': 45
-        'price': 14.99
-        'quantity': 42
-        'last_updated': 04192020-093029
-    }
-},
-{
-    ...
-}]
-```
-
-### **Return products based on a search category and a json body like the one below**
-
-> /products/getdata/{product_name/location/category}
-
-Input in JSON format:
-```
-{
-    'keyword': 'Apple charging cable',
-    'limit': 10,
-    'location': [23.040203, -122.72834],
-    'category': 'Technology'
-}
-```
-
-Output in JSON format:
-```
-[{
-    'id': 45
-    'name': 'Walgreens',
-    'category': 'Personal Care/Groceries',
-    'coordinates': [35.24329, -122.23423]
-},
-{
-    ..
-}]
-```
-
-## PUT Routes
+## POST Routes
 
 ### **Add new store to database**
-Will return the store_id
+Will return the inserted store
 
-> /add/store
+> /stores
 
 Input in JSON format:
 ```
 {
     'name': 'Walgreens',
-    'category': 'Personal Care/Groceries',
+    'city': 'San Francisco',
     'coordinates': [35.24329, -122.23423]
 }
 ```
 
 ### **Add new product to database**
-Will return the product_id
+Will return the inserted product
 
-> /add/product
+> /products
 
 Input in JSON format:
 ```
 {
     'name': 'Apple iPhone Lightning Cable',
     'category': 'Technology',
-    'store_id': 45
-    'price': 14.99
-    'quantity': 42
-    'last_updated': 04192020-093029
-}
-```
-
-## DELETE Routes
-
-### **Remove store by id (this removes all products linked to this store_id)**
-Will return the removed store object, and number of product objects removed
-
-> /remove/store/{id}
-
-Output in JSON Format
-```
-{
-    'id': 45
-    'name': 'Walgreens',
-    'category': 'Personal Care/Groceries',
-    'coordinates': [35.24329, -122.23423],
-    'num_products_removed': 120
-}
-```
-
-### **Remove product by id**
-Will return the removed product object
-
-> /remove/product/{id}
-
-Output in JSON format:
-```
-{
-    'id': 20
-    'name': 'Apple iPhone Lightning Cable',
-    'category': 'Technology',
-    'store_id': 45
-    'price': 14.99
-    'quantity': 42
-    'last_updated': 04192020-093029
+    'price': 14.99,
+    'store': Store1._id (FK)
 }
 ```
