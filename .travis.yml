@@ -4,6 +4,8 @@ node_js:
 script:
   - npm run test
   - npm run build
+services:
+  - mongodb
 branches:
   only:
     - master
